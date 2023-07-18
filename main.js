@@ -9,12 +9,12 @@ while (true) {
     if (txt != "online") throw new Error("Repeat");
   } catch {
     try {
-      http.get({ host: "api.ipify.org", port: 80, path: "/" }, function (resp) {
-        resp.on("data", function (ip) {
-          console.log("update", update.replace("<ipaddr>", ip));
-          fetch(update.replace("<ipaddr>", ip));
-        });
-      });
+      fetch(
+        update.replace(
+          "<ipaddr>",
+          await (await fetch("https://api.ipify.org/")).text()
+        )
+      );
     } catch (e) {
       console.log("IP sync fail");
     }
